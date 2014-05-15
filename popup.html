@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <title>Getting Started Extension's Popup</title>
+    <style>
+      body {
+        min-width: 357px;
+        overflow-x: hidden;
+        background-color: #E4E4E4;
+        font-family: Verdana,Arial,sans-serif;
+      }
+      .ui-corner-all {
+        font-size:10px;
+      }
+      img {
+        margin: 5px;
+        border: 2px solid black;
+        vertical-align: middle;
+        width: 75px;
+        height: 75px;
+      }
+.close{
+  position:relative;
+  width:0.3em;
+  height:1.5em;
+  background: #2C2C2C;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+font-size: 22px;
+}
+.close:after{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width:0.3em;
+  height:1.5em;
+  background: #2C2C2C;
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+}
+
+    </style>
+    <script src="jquery.min.js"></script>
+    <script src="jquery-ui-1.10.4.min.js"></script>
+    <script src="popup.js"></script>
+    <link rel="stylesheet" href="jquery-ui.css">
+  </head>
+  <body id="body">
+  <div id="search">
+  <div id="errors"></div>
+Add friend : <input id="pseudo" type="text" name="pseudo" placeholder="uid"><button id="submit">Add</button></div>
+<div id="users"></div>
+  </body>
+</html>
+
