@@ -6,13 +6,12 @@
 /*   By: mfassi-f <mfassi-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/15 14:03:41 by mfassi-f          #+#    #+#             */
-/*   Updated: 2014/05/15 20:02:31 by mfassi-f         ###   ########.fr       */
+/*   Updated: 2014/05/15 21:09:14 by mfassi-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 var storage = chrome.storage.sync;
 var users;
-
 if (window.File && window.FileReader && window.FileList && window.Blob)
 {
 	var file = chrome.extension.getURL('students.txt');
@@ -36,7 +35,6 @@ else
 	setError('The File APIs are not fully supported by your browser.');
 	return ;
 }
-
 setSucceed();
 
 function reqStatus(obj, i, elem)
@@ -45,11 +43,11 @@ function reqStatus(obj, i, elem)
 		url: 'https://dashboard.42.fr/crawler/pull/'+obj["friends"][i]+"/",
 		dataType: 'json',
 		success: function(data){
-			elem.innerHTML = elem.innerHTML + "<div style='float:left; margin:5px;position:relative'><div style='position:relative'><div class='cross' style='font-size:42px; width:100%; height:100%;z-index:10; opacity:0; position:absolute' id='cross"+i+"'><p style='color:#E00404; width:100%; height:100%; margin:0; margin-top:15px;text-align:center'>&#10006;</p></div><div id='photo"+i+"'class='photos' style='border: 2px solid #49C960; border-radius: 50%; width:70px; height:70px;background:url("+'"https://cdn.42.fr/userprofil/'+ data.login+'.jpg"'+") no-repeat; background-size: 100%;'></div></div>"+data.last_host.replace('.42.fr', '')+"</div>";
+			elem.innerHTML = elem.innerHTML + "<div style='float:left; margin:5px;position:relative'><div style='position:relative'><div class='cross' style='font-size:42px; width:100%; height:100%;z-index:10; opacity:0; position:absolute' id='cross"+i+"'><p style='color:#E00404; width:100%; height:100%; margin:0; margin-top:15px;text-align:center'>&#10006;</p></div><div id='photo"+i+"'class='photos' style='border: 2px solid #49C960; border-radius: 50%; width:70px; height:70px;background:url("+'"https://cdn.42.fr/userprofil/'+ data.login+'.jpg"'+") no-repeat; background-size: 100%;'></div></div><div>"+data.last_host.replace('.42.fr', '')+"</div></div>";
 		},
 		error: function (data)
 		{
-			elem.innerHTML = elem.innerHTML + "<div style='float:left; margin:5px;position:relative'><div style='position:relative'><div class='cross' style='font-size:42px; width:100%; height:100%;z-index:10; opacity:0; position:absolute' id='cross"+i+"'><p style='color:#E00404;width:100%; height:100%; margin:0; margin-top:15px;text-align:center'>&#10006;</p></div><div id='photo"+i+"' class='photos' style='border: 2px solid #E00404; border-radius: 50%; width:70px;height:70px;background:url("+'"https://cdn.42.fr/userprofil/'+obj["friends"][i]+'.jpg"'+") no-repeat; background-size: 100%;'></div></div></div>";
+			elem.innerHTML = elem.innerHTML + "<div style='float:left; margin:5px;position:relative'><div style='position:relative'><div class='cross' style='font-size:42px; width:100%; height:100%;z-index:10; opacity:0; position:absolute' id='cross"+i+"'><p style='color:#E00404;width:100%; height:100%; margin:0; margin-top:15px;text-align:center'>&#10006;</p></div><div id='photo"+i+"' class='photos' style='border: 2px solid #E00404; border-radius: 50%; width:70px;height:70px;background:url("+'"https://cdn.42.fr/userprofil/'+obj["friends"][i]+'.jpg"'+") no-repeat; background-size: 100%;'></div></div><div style='min-height:19px'></div></div>";
 		}
 	});
 }
@@ -57,6 +55,12 @@ function reqStatus(obj, i, elem)
 function display(obj)
 {
 	var elem = document.getElementById("users");
+	console.log(obj);
+	if (!obj["friends"])
+	{
+		storage.set({"friends":[]}, function(){});
+		return;
+	}
 	for(var i = 0; i < obj["friends"].length; i++)
 	{
 		reqStatus(obj, i, elem);
@@ -151,13 +155,13 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	});
 	$(function() {
-	$("#pseudo").autocomplete({
-		source: function( request, response ) {
-          var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( request.term ), "i" );
-          response( $.grep( users, function( item ){
-              return matcher.test( item );
-          }).slice(0,4) );
-      }
+		$("#pseudo").autocomplete({
+			source: function( request, response ) {
+				var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( request.term ), "i" );
+				response( $.grep( users, function( item ){
+					return matcher.test( item );
+				}).slice(0,4) );
+			},
+		});
 	});
-  });
 })
